@@ -1,5 +1,5 @@
 {
-  "name": "kitchen-service",
+  "name": "customer-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,10 @@
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
     "start": "node build/index.js",
-    "test": "jest"
+    "test": "jest",
+    "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -d src/db/conexion.ts",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run -d src/db/conexion.ts",
+    "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d src/db/conexion.ts"
   },
   "keywords": [],
   "author": "",
@@ -30,13 +33,12 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
-    "bullmq": "^5.52.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^4.19.2",
-    "ioredis": "^5.6.1",
     "pg": "^8.15.6",
     "reflect-metadata": "^0.2.2",
-    "socket.io": "^4.8.1",
-    "typeorm": "^0.3.23"
+    "typeorm": "^0.3.23",
+    "zod": "^4.1.11"
   }
 }
