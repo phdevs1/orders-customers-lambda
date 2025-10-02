@@ -13,11 +13,6 @@ export class CustomerService {
     return await this.customerRepository.create(data);
   };
 
-  list = async (): Promise<GetCustomerDto[]> => {
-    const customers = await this.customerRepository.list();
-    return GetCustomerSchema.array().parse(customers);
-  };
-
   getById = async (id: number): Promise<GetCustomerDto | null> => {
     const customer = await this.customerRepository.getById(id);
     if (!customer) {
@@ -36,5 +31,13 @@ export class CustomerService {
 
   softDelete = async (id: number): Promise<void> => {
     await this.customerRepository.softDelete(id);
+  };
+
+  search = async (params: {
+    search: string;
+    cursor?: number;
+    limit: number;
+  }) => {
+    return await this.customerRepository.search(params);
   };
 }

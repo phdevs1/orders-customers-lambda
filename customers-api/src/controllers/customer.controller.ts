@@ -16,16 +16,6 @@ export class CustomerController {
     }
   };
 
-  list = async (req: Request, res: Response) => {
-    try {
-      const customers = await this.customerService.list();
-      res.status(200).json(customers);
-    } catch (err: any) {
-      console.error("Failed to list in-progress customers:", err);
-      res.status(500).json({ message: err.message });
-    }
-  };
-
   getById = async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id, 10);
@@ -72,6 +62,23 @@ export class CustomerController {
       res.status(204).send();
     } catch (err: any) {
       console.error("Failed to soft delete customer:", err);
+      res.status(500).json({ message: err.message });
+    }
+  };
+
+  list = async (req: Request, res: Response) => {
+    try {
+      const { search = "", cursor, limit = "10" } = req.query;
+
+      const result = await this.customerService.search({
+        search: String(search),
+        cursor: cursor ? parseInt(cursor as string, 10) : undefined,
+        limit: parseInt(limit as string, 10),
+      });
+
+      res.status(200).json(result);
+    } catch (err: any) {
+      console.error("Failed to search customers:", err);
       res.status(500).json({ message: err.message });
     }
   };
