@@ -1,6 +1,10 @@
 import { DataSource } from "typeorm";
-import { Order } from "../entities/Order";
 import "dotenv/config";
+import { Product } from "../entities/Product";
+import { Customer } from "../entities/Customer";
+import { Order } from "../entities/Order";
+import { OrderItem } from "../entities/OrderItem";
+import { IdempotencyKey } from "../entities/IdempotencyKey";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -10,5 +14,5 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   synchronize: true,
-  entities: [Order],
+  entities: [Product, Customer, Order, OrderItem, IdempotencyKey],
 });
